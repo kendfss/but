@@ -2,15 +2,6 @@ package but
 
 import "fmt"
 
-// generate a new bug
-// see go doc but FmtArgs for more info
-func NewBug(code uint8, msg string) Bug {
-	return Bug{
-		code: code,
-		msg:  msg,
-	}
-}
-
 // Error is a errors.New && fmt.Errorf hybrid.
 // returns nil if text is empty string
 // seen go doc but FmtArgs for more info
