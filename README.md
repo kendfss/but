@@ -4,7 +4,7 @@ but
 Just a few utilities for error management
 
 Why?
-It's called _but_ because a but is an and with a non-uniform expectation
+It's called _but_ because a but is an _and_ with a non-standard expectation
 
 
 
@@ -75,7 +75,9 @@ func MustBool(pred bool, fmtArgs ...any)
 func Mustv[T any](val T, err error, fmtArgs ...any) T
     // Mustv unpacks the return value of a function that might fail panicking if it
     // does
+
     //     Mustv(myfunc(...))
+
     // see go doc but FmtArgs for more info
 
 func Mustv2[I, O any](fn func(I) (O, error), fmtArgs ...any) func(I) O
@@ -97,72 +99,27 @@ func Should(pred bool, fmtArgs ...any) bool
     // FmtArgs for more info
 
 func Strr(arg any) string
-
 func Strrf(arg any, format string) string
     // Strrf checks if arg is a stringer, error, or string, and returns:
+
     //     the associated string
+
     // else a representation (if format != "") else ""
 
 func Unwrap(err error) error
     // Unwrap returns the result of calling the Unwrap method on err, if err's type
     // contains an Unwrap method returning error. Otherwise, Unwrap returns nil.
+
     // Unwrap returns nil if the Unwrap method returns []error.
 
 
-TYPES
-
-type Bug struct {
-	// Has unexported fields.
-}
-
-func NewBug(code uint8, msg string) Bug
-    // generate a new bug see go doc but FmtArgs for more info
-
-func (b *Bug) Change(args ...any)
-
-func (b Bug) Clone() *Bug
-    // Clone returns a copy of a Bug at a new memory location
-
-func (b Bug) Code() uint8
-
-func (this *Bug) Eq(that *Bug) bool
-    // Eq checks if this Bug has the same pointer, code, or message, as that one
-
-func (b Bug) Error() string
-
-func (b Bug) Exif()
-
-func (b Bug) Exit()
-
-func (b Bug) Explain(s string) Bug
-    // Explain appends a colon, space char, and the given string to a Bug's message
-
-func (b Bug) F(index int, msg string, args ...any) Bug
-
-func (*Bug) For(err error) *Bug
-    // For derives a Bug from a std.error
-
-func (*Bug) From(err string) *Bug
-    // From derives a Bug from a std.string
-
-func (b Bug) Int() int
-    // Int returns the Bug's exit code as an int
-
-func (b Bug) Name(s string) Bug
-    // Name prepends the given string, a colon, and a space char to a Bug's message
-
-func (b Bug) String() string
-    // String returns the Bug's message
-
-func (b Bug) Warn()
-
-func (this Bug) Wrapf(msg string) Bug
+// TYPES
 
 type FmtArgs interface {
 	int | string | []any
-}
+} // Fmt functions expect trailing arguments to have one of the above types
 
-type Note string
+type Note string // error message
 
 func NewNote(fmtArgs ...any) Note
     // Create new notes see go doc but FmtArgs for more info
@@ -185,12 +142,12 @@ func (n Note) Fmt(args ...any) Note
 func (n Note) String() string
 
 type Writer interface {
-// 	io.Writer
-// 	io.StringWriter
-// }
-//     Writer is the type needed to log to std{i,e,o} and files
+	io.Writer
+	io.StringWriter
+}
+    // Writer is the type needed to log to std{in,err,out} and files
+
+
+
 ```
 
-
-todo
-- Exit function that takes ExitCode/Exit/int
