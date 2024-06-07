@@ -84,7 +84,9 @@ func MustBool(pred bool, fmtArgs ...any) {
 
 // Mustv unpacks the return value of a function that might fail
 // panicking if it does
-// 		Mustv(myfunc(...))
+//
+//	Mustv(myfunc(...))
+//
 // see go doc but FmtArgs for more info
 func Mustv[T any](val T, err error, fmtArgs ...any) T {
 	Must(err, fmtArgs...)
@@ -100,9 +102,17 @@ func Mustv2[I, O any](fn func(I) (O, error), fmtArgs ...any) func(I) O {
 }
 
 // print a non-nil error to stderr
-// return false if err != nil
+// return err != nil
+func Should(err error) bool {
+	if err != nil {
+		output.WriteString(err.Error() + "\n")
+	}
+	return err != nil
+}
+
+// prints to stderr if pred is true
 // see go doc but FmtArgs for more info
-func Should(pred bool, fmtArgs ...any) bool {
+func ShouldBool(pred bool, fmtArgs ...any) bool {
 	if pred {
 		_, msg, args := ParseArgs(fmtArgs...)
 		*msg = fmt.Sprintf(*msg, args...)
