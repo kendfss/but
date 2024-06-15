@@ -66,10 +66,9 @@ func Exif(pred bool, fmtArgs ...any) {
 
 // panic if an error is not nil
 // see go doc but FmtArgs for more info
-func Must(err error, fmtArgs ...any) {
+func Must(err error) {
 	if err != nil {
-		_, msg, args := ParseArgs(fmtArgs...)
-		panic(fmt.Sprintf(*msg, args...))
+		panic(err)
 	}
 }
 
@@ -89,7 +88,12 @@ func MustBool(pred bool, fmtArgs ...any) {
 //
 // see go doc but FmtArgs for more info
 func Mustv[T any](val T, err error, fmtArgs ...any) T {
-	Must(err, fmtArgs...)
+	Must(err)
+	return val
+}
+
+func Shouldv[T any](val T, err error) T {
+	Should(err)
 	return val
 }
 
