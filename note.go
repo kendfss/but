@@ -8,6 +8,11 @@ import (
 
 type Note string
 
+// Detail creates a new note of the form "n: msg"
+func (n Note) Detail(msg string) Note {
+	return Note(fmt.Sprintf("%s: %s", n, msg))
+}
+
 // Appendf concatenates n with the given args using the given %-form and sep
 func (n Note) Appendf(form, sep string, args ...any) Note {
 	form = form + strings.Repeat(sep+form, len(args))
@@ -22,6 +27,7 @@ func (n Note) Fmt(args ...any) Note {
 func (n Note) String() string {
 	return string(n)
 }
+
 func (n Note) Error() string {
 	return string(n)
 }
